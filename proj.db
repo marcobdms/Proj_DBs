@@ -1,11 +1,12 @@
-
+-- Marco, sergio --
 CREATE DATABASE Crops;
 
 USE Crops;
 
 SHOW TABLES;
 
--- marco y sergio -
+DROP DATABASE Crops;
+
 CREATE TABLE Plants(
 ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 CommonName VARCHAR(255),
@@ -21,7 +22,7 @@ DROP TABLE Plants;
 
 -- isma --
 CREATE TABLE IF NOT EXISTS users (
-user_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 username VARCHAR(255) NOT NULL,
 email VARCHAR(100) NOT NULL UNIQUE,
 password CHAR(64) NOT NULL,
@@ -31,27 +32,50 @@ last_login datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 
 SELECT * FROM users;
 
--- marco --
 CREATE TABLE IF NOT EXISTS Users_Info (
-user_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user_id INT NOT NULL,
 FirstName VARCHAR(255) NOT NULL,
 LastName VARCHAR(255) NOT NULL,
 Email VARCHAR(64) NOT NULL UNIQUE,
-Birthday date
+Birthday date,
+PRIMARY KEY (user_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 SELECT * FROM Users_Info;
 
--- marco -- (incompleta)
-CREATE TABLE IF NOT EXISTS Prediciton (
-id_Prediction INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Prediction (
+id_Prediction INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+id_users INT NOT NULL,
 X1 VARCHAR(255) NOT NULL,
 X2 VARCHAR(255) NOT NULL,
 X3 VARCHAR(255) NOT NULL,
 X4 VARCHAR(255) NOT NULL,
 X5 VARCHAR(255) NOT NULL,
-Y VARCHAR(255) NOT NULL
+Y VARCHAR(255) NOT NULL,
+FOREIGN KEY (id_users) REFERENCES users(user_id)
 );
+
+DROP TABLE Prediction;
+
+CREATE TABLE User_Diseases(
+id_Diseases INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user_id INT NOT NULL,
+Creation_Date DATE,
+File_Name VARCHAR(255),
+Disease VARCHAR(255),
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+DROP TABLE User_Diseases;
+
+CREATE TABLE Diseases(
+id_Diseases INT NOT NULL,
+Diseases_Name VARCHAR(255),
+treatment TEXT,
+FOREIGN KEY (id_Diseases) REFERENCES User_Diseases(id_Diseases) 
+);
+
 
 INSERT INTO Plants (ID, CommonName, ScientificName, CultivationTime, Characteristics, Diseases)
 VALUES ('1', 'Arroz', 'Oryza sativa', 120, 'Planta Anual que se cultiva en campos inundados.', 'manchas foliares y pulgones');
