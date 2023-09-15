@@ -47,34 +47,39 @@ SELECT * FROM Users_Info;
 CREATE TABLE IF NOT EXISTS Prediction (
 id_Prediction INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 id_users INT NOT NULL,
-X1 VARCHAR(255) NOT NULL,
-X2 VARCHAR(255) NOT NULL,
-X3 VARCHAR(255) NOT NULL,
-X4 VARCHAR(255) NOT NULL,
-X5 VARCHAR(255) NOT NULL,
-Y VARCHAR(255) NOT NULL,
+nitrogen INT NOT NULL,
+phosphorus INT NOT NULL,
+potassium INT NOT NULL,
+temperature FLOAT NOT NULL,
+humidity FLOAT NOT NULL,
+ph FLOAT NOT NULL,
+rainfall INT NOT NULL,
+prediction VARCHAR(255) NOT NULL,
 FOREIGN KEY (id_users) REFERENCES users(user_id)
 );
 
 DROP TABLE Prediction;
 
-CREATE TABLE User_Diseases(
+CREATE TABLE User_Diseases (
 id_Diseases INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT NOT NULL,
 Creation_Date DATE,
 File_Name VARCHAR(255),
-Disease VARCHAR(255),
-FOREIGN KEY (user_id) REFERENCES users(user_id)
+Disease INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
+FOREIGN KEY (Disease) REFERENCES Diseases(id_Diseases)
 );
+
 
 DROP TABLE User_Diseases;
 
-CREATE TABLE Diseases(
-id_Diseases INT NOT NULL,
+CREATE TABLE Diseases (
+id_Diseases INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 Diseases_Name VARCHAR(255),
-treatment TEXT,
-FOREIGN KEY (id_Diseases) REFERENCES User_Diseases(id_Diseases) 
+Treatment TEXT,
+INDEX (id_Diseases)
 );
+
 
 
 INSERT INTO Plants (ID, CommonName, ScientificName, CultivationTime, Characteristics, Diseases)
